@@ -15,7 +15,7 @@ Vector2f SeparationRule::computeForce(const std::vector<Boid*>& neighborhood, Bo
     float dist = diff.getMagnitude();
     if (dist > 0 && dist < desiredMinimalDistance)
     {
-      separatingForce += diff.normalized() * (1 / (dist));
+      separatingForce += diff.normalized() * ((desiredMinimalDistance / 2) / (dist));
     }
   }
 
