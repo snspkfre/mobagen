@@ -4,14 +4,13 @@
 #include "engine/Engine.h"
 
 Vector2f BoundedAreaRule::computeForce(const std::vector<Boid*>& neighborhood, Boid* boid) {
-  // Return a force proportional to the proximity of the boids with the bounds, and opposed to it
-  Vector2f force = Vector2f::zero();  // zero
+  Vector2f force = Vector2f::zero();
 
   Vector2f windowSize(this->world->engine->window->size().x, this->world->engine->window->size().y);
   Vector2f pos = boid->getPosition();
 
-  if (pos.x > windowSize.x - desiredDistance) force.x = -1;
-  if (pos.y > windowSize.y - desiredDistance) force.y = -1;
+  if (pos.x > windowSize.x - desiredDistance) force.x = -1;//if a boid is out of the bounds we want then we
+  if (pos.y > windowSize.y - desiredDistance) force.y = -1;//add force in the direction needed to pull it back in
   if (pos.x < desiredDistance) force.x = 1;
   if (pos.y < desiredDistance) force.y = 1;
 
