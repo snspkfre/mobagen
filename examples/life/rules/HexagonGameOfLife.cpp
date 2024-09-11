@@ -26,52 +26,25 @@ void HexagonGameOfLife::Step(World& world)
 int HexagonGameOfLife::CountNeighbors(World& world, Point2D point)
 {
   int sum = 0;
-  if (point.y == 0)
-  {
-    //top edge
-    sum += world.Get(point + point.UP) ? 1 : 0;
-    sum += world.Get(point + point.UP + point.RIGHT) ? 1 : 0;
-    sum += world.Get(point + point.RIGHT) ? 1 : 0;
-    sum += world.Get(point + point.LEFT) ? 1 : 0;
+
+
+  if (point.y % 2 == 0) {
+    // even
+    if(point.y > 0) sum += world.Get(point + point.UP) ? 1 : 0;
+    if (point.y > 0 && point.x > 0) sum += world.Get(point + point.UP + point.LEFT) ? 1 : 0;
+    if (point.x < world.SideSize() - 1) sum += world.Get(point + point.RIGHT) ? 1 : 0;
+    if (point.x > 0) sum += world.Get(point + point.LEFT) ? 1 : 0;
+    if (point.y < world.SideSize() - 1) sum += world.Get(point + point.DOWN) ? 1 : 0;
+    if (point.y < world.SideSize() - 1 && point.x > 0) sum += world.Get(point + point.DOWN + point.LEFT) ? 1 : 0;
+  } else {
+    // odd
+    if (point.y > 0) sum += world.Get(point + point.UP) ? 1 : 0;
+    if (point.y > 0 && point.x < world.SideSize() - 1) sum += world.Get(point + point.UP + point.RIGHT) ? 1 : 0;
+    if (point.x < world.SideSize() - 1) sum += world.Get(point + point.RIGHT) ? 1 : 0;
+    if (point.x > 0) sum += world.Get(point + point.LEFT) ? 1 : 0;
+    if (point.y < world.SideSize() - 1) sum += world.Get(point + point.DOWN) ? 1 : 0;
+    if (point.y < world.SideSize() - 1 && point.x < world.SideSize() - 1) sum += world.Get(point + point.DOWN + point.RIGHT) ? 1 : 0;
   }
-  else if (point.y == world.SideSize() - 1)
-  {
-    //bottom edge
-    if (point.y % 2 == 1)
-    {//even bottom edge
-      sum += world.Get(point + point.DOWN) ? 1 : 0;
-      sum += world.Get(point + point.DOWN + point.RIGHT) ? 1 : 0;
-    }
-    else
-    {//odd bottom edge
-      sum += world.Get(point + point.DOWN) ? 1 : 0;
-      sum += world.Get(point + point.DOWN + point.LEFT) ? 1 : 0;
-    }
-    sum += world.Get(point + point.RIGHT) ? 1 : 0;
-    sum += world.Get(point + point.LEFT) ? 1 : 0;
-  }
-  else
-  {
-    if (point.y % 2 == 0)
-    {
-      //even
-      sum += world.Get(point + point.UP) ? 1 : 0;
-      sum += world.Get(point + point.UP + point.LEFT) ? 1 : 0;
-      sum += world.Get(point + point.RIGHT) ? 1 : 0;
-      sum += world.Get(point + point.LEFT) ? 1 : 0;
-      sum += world.Get(point + point.DOWN) ? 1 : 0;
-      sum += world.Get(point + point.DOWN + point.LEFT) ? 1 : 0;
-    }
-    else
-    {
-      //odd
-      sum += world.Get(point + point.UP) ? 1 : 0;
-      sum += world.Get(point + point.UP + point.RIGHT) ? 1 : 0;
-      sum += world.Get(point + point.RIGHT) ? 1 : 0;
-      sum += world.Get(point + point.LEFT) ? 1 : 0;
-      sum += world.Get(point + point.DOWN) ? 1 : 0;
-      sum += world.Get(point + point.DOWN + point.RIGHT) ? 1 : 0;
-    }
-  }
+
   return sum;
 }
