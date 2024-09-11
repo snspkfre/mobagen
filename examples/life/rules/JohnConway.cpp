@@ -2,7 +2,6 @@
 
 // Reference: https://playgameoflife.com/info
 void JohnConway::Step(World& world) {
-  // todo: implement
   Point2D current;
   for (int y = 0; y < world.SideSize(); y++)
   {
@@ -25,7 +24,6 @@ void JohnConway::Step(World& world) {
 }
 
 int JohnConway::CountNeighbors(World& world, Point2D point) {
-  // todo: implement
   int sum = 0;
   sum += world.Get(point + point.UP) ? 1 : 0;
   sum += world.Get(point + point.LEFT) ? 1 : 0;
