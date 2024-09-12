@@ -71,6 +71,11 @@ void Manager::OnGui(ImGuiContext* context) {
     isSimulating = false;
     world.Randomize();
   }
+  
+  if (ImGui::Button("Genocide")) {
+    isSimulating = false;
+    world.Genocide();
+  }
 
   ImGui::End();  // end settings
 
