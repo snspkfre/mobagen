@@ -10,23 +10,16 @@ void HexagonGameOfLife::Step(World& world)
     for (int x = 0; x < world.SideSize(); x++) {
       current = Point2D(x, y);
       int count = CountNeighbors(world, current);
-      if (world.Get(current)) {
         if (count != 2)
           world.SetNext(current, false);
         else
           world.SetNext(current, true);
-      } else if (count == 2) {
-        world.SetNext(current, true);
-      } else {
-        world.SetNext(current, false);
-      }
     }
   }
 }
 int HexagonGameOfLife::CountNeighbors(World& world, Point2D point)
 {
   int sum = 0;
-
 
   if (point.y % 2 == 0) {
     // even

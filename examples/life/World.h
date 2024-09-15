@@ -24,7 +24,7 @@ public:
   void SetNext(Point2D point, bool value);
   void SetCurrent(Point2D point, bool value);
   void Randomize();
-  void Genocide();
+  void ClearBoard();
 };
 
 #endif  // MOBAGEN_WORLD_H

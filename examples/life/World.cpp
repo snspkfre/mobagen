@@ -51,7 +51,7 @@ void World::Randomize() {
   for (int i = 0; i < buffer[0].size(); i++) buffer[1][i] = buffer[0][i];
 }
 
-void World::Genocide() {
+void World::ClearBoard() {
   for (auto&& elem : buffer[0]) elem = 0;
 
   for (int i = 0; i < buffer[0].size(); i++) buffer[1][i] = buffer[0][i];

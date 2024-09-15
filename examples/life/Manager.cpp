@@ -72,9 +72,9 @@ void Manager::OnGui(ImGuiContext* context) {
     world.Randomize();
   }
   
-  if (ImGui::Button("Genocide")) {
+  if (ImGui::Button("Clear Board")) {
     isSimulating = false;
-    world.Genocide();
+    world.ClearBoard();
   }
 
   ImGui::End();  // end settings
