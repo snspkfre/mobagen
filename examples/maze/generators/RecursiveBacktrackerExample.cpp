@@ -13,7 +13,7 @@ bool RecursiveBacktrackerExample::Step(World* w) {
     visited[st.back().x][st.back().y] = true;
     vector<Point2D> neighbors = getVisitables(w, st.back());
     Point2D neighbor = neighbors.front();
-    if(neighbors.empty()) { st.pop_back(); return false; }
+    if(neighbors.empty()) { st.pop_back(); return true; }
     else if(neighbors.size() != 1)
     {
       Random random;
@@ -50,7 +50,7 @@ bool RecursiveBacktrackerExample::Step(World* w) {
     st.push_back(randomStartPoint(w));
   }
 
-  return true;
+  return false;
 }
 
 void RecursiveBacktrackerExample::Clear(World* world) {
@@ -78,10 +78,10 @@ Point2D RecursiveBacktrackerExample::randomStartPoint(World* world) {
 std::vector<Point2D> RecursiveBacktrackerExample::getVisitables(World* w, const Point2D& p) {
   auto sideOver2 = w->GetSize() / 2;
   std::vector<Point2D> visitables;
-  if (!visited[p.Up().x][p.Up().y]) visitables.push_back(p.Up());
-  if (!visited[p.Down().x][p.Down().y]) visitables.push_back(p.Down());
-  if (!visited[p.Left().x][p.Left().y]) visitables.push_back(p.Left());
-  if (!visited[p.Right().x][p.Right().y]) visitables.push_back(p.Right());
+  if (w->isValidPosition(p.Up()) && !visited[p.Up().x][p.Up().y]) visitables.push_back(p.Up());
+  if (w->isValidPosition(p.Down()) && !visited[p.Down().x][p.Down().y]) visitables.push_back(p.Down());
+  if (w->isValidPosition(p.Left()) && !visited[p.Left().x][p.Left().y]) visitables.push_back(p.Left());
+  if (w->isValidPosition(p.Right()) && !visited[p.Right().x][p.Right().y]) visitables.push_back(p.Right());
 
   return visitables;
 }
