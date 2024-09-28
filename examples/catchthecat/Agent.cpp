@@ -4,6 +4,9 @@
 #include <queue>
 #include "World.h"
 using namespace std;
+
+vector<Point2D> getVisitableNeightbors(World* w, Point2D p, unordered_map<Point2D, bool> visited, unordered_set<Point2D> frontierSet);
+
 std::vector<Point2D> Agent::generatePath(World* w) {
   unordered_map<Point2D, Point2D> cameFrom;  // to build the flowfield and build the path
   queue<Point2D> frontier;                   // to store next ones to visit
@@ -17,6 +20,10 @@ std::vector<Point2D> Agent::generatePath(World* w) {
   Point2D borderExit = Point2D::INFINITE;  // if at the end of the loop we dont find a border, we have to return random points
 
   while (!frontier.empty()) {
+    Point2D current = frontier.front;
+    frontierSet.erase(current);
+    visited[current] = true;
+    vector<Point2D> neighbors = getVisitableNeightbors(w, current, visited, frontierSet);
     // get the current from frontier
     // remove the current from frontierset
     // mark current as visited
@@ -31,4 +38,15 @@ std::vector<Point2D> Agent::generatePath(World* w) {
   // if there isnt a reachable border, just return empty vector
   // if your vector is filled from the border to the cat, the first element is the catcher move, and the last element is the cat move
   return vector<Point2D>();
+}
+
+vector<Point2D> getVisitableNeightbors(World* w, Point2D p, unordered_map<Point2D, bool> visited, unordered_set<Point2D> frontierSet)
+{
+  vector<Point2D> neighbors, temp;
+  temp = w->neighbors(p);
+  for(Point2D p : temp)
+  {
+    if(!visited[p] && p != w->getCat() && frontierSet.find(p) != frontierSet.end()) neighbors.push_back(p);
+  }
+  return neighbors;
 }
