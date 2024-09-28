@@ -8,32 +8,54 @@ using namespace std;
 
 bool RecursiveBacktrackerExample::Step(World* w) {
   // todo: implement this
-  /*Point2D current;
-
-  for (int y = 0; y < w->GetSize(); y++)
+  if(!st.empty())
   {
-    for (int x = 0; x <  w->GetSize(); x++)
+    visited[st.back().x][st.back().y] = true;
+    vector<Point2D> neighbors = getVisitables(w, st.back());
+    Point2D neighbor = neighbors.front();
+    if(neighbors.empty()) { st.pop_back(); return false; }
+    else if(neighbors.size() != 1)
     {
-      current = Point2D(x, y);
-      Point2D other;
-      vector<Point2D> visitables = getVisitables(w, current);
-      if (visitables.size() == 1)
-      {
-        other = visitables.front();
-      }
-      else if (!visitables.empty())
-      {
-        //other =
-      }
+      Random random;
+      neighbor = neighbors[random.Range(0, neighbors.size() - 1)];
     }
+
+    if(neighbor.x > st.back().x)
+    {
+      w->SetEast(st.back(), false);
+      w->SetWest(st.back().Right(), false);
+    }
+    else if(neighbor.y > st.back().y)
+    {
+      w->SetNorth(st.back(), false);
+      w->SetSouth(st.back().Up(), false);
+    }
+    else if(neighbor.x == st.back().x)
+    {
+      w->SetSouth(st.back(), false);
+      w->SetNorth(st.back().Down(), false);
+    }
+    else
+    {
+      w->SetWest(st.back(), false);
+      w->SetEast(st.back().Left(), false);
+    }
+
+    st.push_back(neighbor);
+
+    return true;
+  }
+  else
+  {
+    st.push_back(randomStartPoint(w));
   }
 
-  return false;*/
+  return true;
 }
 
 void RecursiveBacktrackerExample::Clear(World* world) {
   visited.clear();
-  stack.clear();
+  st.clear();
   auto sideOver2 = world->GetSize() / 2;
 
   for (int i = -sideOver2; i <= sideOver2; i++) {
@@ -56,10 +78,10 @@ Point2D RecursiveBacktrackerExample::randomStartPoint(World* world) {
 std::vector<Point2D> RecursiveBacktrackerExample::getVisitables(World* w, const Point2D& p) {
   auto sideOver2 = w->GetSize() / 2;
   std::vector<Point2D> visitables;
-  if (p.y > 0 && w->GetNorth(p)) visitables.push_back(p.Up());
-  if (p.x < w->GetSize() - 1 && w->GetSouth(p)) visitables.push_back(p.Down());
-  if (p.x > 0 && w->GetWest(p)) visitables.push_back(p.Left());
-  if (p.y < w->GetSize() - 1 && w->GetEast(p)) visitables.push_back(p.Right());
+  if (!visited[p.Up().x][p.Up().y]) visitables.push_back(p.Up());
+  if (!visited[p.Down().x][p.Down().y]) visitables.push_back(p.Down());
+  if (!visited[p.Left().x][p.Left().y]) visitables.push_back(p.Left());
+  if (!visited[p.Right().x][p.Right().y]) visitables.push_back(p.Right());
 
   return visitables;
 }
