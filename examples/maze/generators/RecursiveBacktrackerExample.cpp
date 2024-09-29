@@ -11,26 +11,32 @@ bool RecursiveBacktrackerExample::Step(World* w) {
   if(!st.empty())
   {
     visited[st.back().x][st.back().y] = true;
+    w->SetNodeColor(st.back(), Color::Red);
     vector<Point2D> neighbors = getVisitables(w, st.back());
+   
+    if(neighbors.empty()) {
+      w->SetNodeColor(st.back(), Color::Black);
+      st.pop_back();
+      return true;
+    }
     Point2D neighbor = neighbors.front();
-    if(neighbors.empty()) { st.pop_back(); return true; }
-    else if(neighbors.size() != 1)
+    if(neighbors.size() != 1)
     {
       Random random;
       neighbor = neighbors[random.Range(0, neighbors.size() - 1)];
     }
 
-    if(neighbor.x > st.back().x)
+    if(neighbor == st.back().Right())
     {
       w->SetEast(st.back(), false);
       w->SetWest(st.back().Right(), false);
     }
-    else if(neighbor.y > st.back().y)
+    else if(neighbor == st.back().Up())
     {
       w->SetNorth(st.back(), false);
       w->SetSouth(st.back().Up(), false);
     }
-    else if(neighbor.x == st.back().x)
+    else if(neighbor == st.back().Down())
     {
       w->SetSouth(st.back(), false);
       w->SetNorth(st.back().Down(), false);
@@ -75,6 +81,7 @@ Point2D RecursiveBacktrackerExample::randomStartPoint(World* world) {
   return {INT_MAX, INT_MAX};
 }
 
+//this shit is BASED
 std::vector<Point2D> RecursiveBacktrackerExample::getVisitables(World* w, const Point2D& p) {
   auto sideOver2 = w->GetSize() / 2;
   std::vector<Point2D> visitables;
