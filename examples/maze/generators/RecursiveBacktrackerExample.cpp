@@ -83,7 +83,6 @@ Point2D RecursiveBacktrackerExample::randomStartPoint(World* world) {
 
 //this shit is BASED
 std::vector<Point2D> RecursiveBacktrackerExample::getVisitables(World* w, const Point2D& p) {
-  auto sideOver2 = w->GetSize() / 2;
   std::vector<Point2D> visitables;
   if (w->isValidPosition(p.Up()) && !visited[p.Up().x][p.Up().y]) visitables.push_back(p.Up());
   if (w->isValidPosition(p.Down()) && !visited[p.Down().x][p.Down().y]) visitables.push_back(p.Down());
