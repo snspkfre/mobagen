@@ -20,14 +20,24 @@ std::vector<Point2D> Agent::generatePath(World* w) {
   Point2D borderExit = Point2D::INFINITE;  // if at the end of the loop we dont find a border, we have to return random points
 
   while (!frontier.empty()) {
-    Point2D current = frontier.front;
+    Point2D current = frontier.front();
     frontierSet.erase(current);
     visited[current] = true;
     vector<Point2D> neighbors = getVisitableNeightbors(w, current, visited, frontierSet);
 
+    if(w->catWinsOnSpace(current)) {
+      vector<Point2D> returnValue;
+      Point2D cur = current;
+      while(cameFrom[cur] != catPos) {
+        returnValue.push_back(cur);
+        cur = cameFrom[cur];
+      }
+      return returnValue;
+    }
+
     for(Point2D next : neighbors)
     {
-      if(cameFrom[next] == null) {
+      if(cameFrom.find(next) == cameFrom.end()) {
         frontier.push(next);
         frontierSet.insert(next);
         cameFrom[next] = current;
@@ -57,7 +67,7 @@ vector<Point2D> getVisitableNeightbors(World* w, Point2D p, unordered_map<Point2
   temp = w->neighbors(p);
   for(Point2D p : temp)
   {
-    if(!visited[p] && p != w->getCat() && frontierSet.find(p) != frontierSet.end()) neighbors.push_back(p);
+    if(w->isValidPosition(p) && !visited[p] && p != w->getCat() && frontierSet.find(p) != frontierSet.end()) neighbors.push_back(p);
   }
   return neighbors;
 }
