@@ -5,7 +5,7 @@ using namespace std;
 
 std::vector<Point2D> Agent::generatePath(World* w) {
   unordered_map<Point2D, Point2D> cameFrom;  // to build the flowfield and build the path
-  priority_queue<Point2D> frontier;                   // to store next ones to visit
+  queue<Point2D> frontier;                   // to store next ones to visit
   unordered_set<Point2D> frontierSet;        // OPTIMIZATION to check faster if a point is in the queue
   unordered_map<Point2D, bool> visited;      // use .at() to get data, if the element dont exist [] will give you wrong results
 
@@ -31,9 +31,6 @@ std::vector<Point2D> Agent::generatePath(World* w) {
       }
       returnValue.push_back(cur);
 
-      for(Point2D n : returnValue) {
-        cout << n.x << "," << n.y << endl;
-      }
       return returnValue;
     }
 
